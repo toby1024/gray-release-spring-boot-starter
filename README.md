@@ -41,3 +41,22 @@ gray:
 private GrayRuleFactory grayRuleFactory;
 boolean filterAll = grayRuleFactory.filterAll(target);
 ```
+
+### 自定义规则
+```java
+@Slf4j
+@Component
+public class MyGrayReleaseStrategy implements IGrayRelease {
+    @Autowired
+    private RuleProperties ruleProperties;
+
+    @Override
+    public boolean execute(String s) {
+        log.info("执行自定义的灰度规则");
+        List<RuleProperties.Feature> featureList = ruleProperties.getFeature().stream()
+                                                                 .filter(feature -> feature.getKey().equals(ClassUtils.getShortNameAsProperty(MyGrayReleaseStrategy.class)))
+                                                                 .collect(Collectors.toList());
+        return featureList.stream().anyMatch(feature -> feature.getValues().contains(s));
+    }
+}
+```
