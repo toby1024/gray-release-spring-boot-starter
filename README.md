@@ -13,14 +13,14 @@ gray:
       feature:
         -
           enable: true
-          key: a
+          key: defaultGrayRelease
           values:
             - 100
             - 200
             - 300, 500
         -
           enable: true
-          key: b
+          key: myGrayReleaseStrategy
           values:
             - 700
             - 800
@@ -33,4 +33,11 @@ gray:
     <artifactId>gray-release-spring-boot-starter</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
+```
+
+### java
+```java
+@Autowired
+private GrayRuleFactory grayRuleFactory;
+boolean filterAll = grayRuleFactory.filterAll(target);
 ```
